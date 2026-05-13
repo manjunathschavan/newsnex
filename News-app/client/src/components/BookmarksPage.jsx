@@ -13,14 +13,14 @@ function BookmarksPage() {
 
   useEffect(() => {
     if (!user) { navigate('/auth'); return; }
-    axios.get('/api/bookmarks', { headers: { Authorization: `Bearer ${token}` } })
+    axios.get(`${import.meta.env.VITE_API_URL}/bookmarks`, { headers: { Authorization: `Bearer ${token}` } })
       .then(({ data }) => { setBookmarks(data.bookmarks); setLoading(false); })
       .catch(() => setLoading(false));
   }, [user]);
 
   const removeBookmark = async (id) => {
     try {
-      const { data } = await axios.delete(`/api/bookmarks/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/bookmarks/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       setBookmarks(data.bookmarks);
     } catch (err) {
       console.error(err);

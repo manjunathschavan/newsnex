@@ -14,5 +14,8 @@ export default defineConfig({
       '/top-headlines': 'http://localhost:3000',
       '/country': 'http://localhost:3000',
     }
+  },
+  define: {
+    'import.meta.env.VITE_API_URL': JSON.stringify('https://newsnex.vercel.app')
   }
 })

@@ -25,7 +25,7 @@ function CountryNews() {
   useEffect(() => {
     setIsLoading(true);
     setError(null);
-    fetch(`/api/country/${encodeURIComponent(countryName)}?page=${page}&pageSize=${pageSize}`)
+    fetch(`${import.meta.env.VITE_API_URL}/country/${encodeURIComponent(countryName)}?page=${page}&pageSize=${pageSize}`)
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error('Network response was not ok');

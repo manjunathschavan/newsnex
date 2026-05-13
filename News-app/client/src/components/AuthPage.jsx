@@ -18,7 +18,7 @@ function AuthPage() {
     setError('');
     setLoading(true);
     try {
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+      const endpoint = isLogin ? `${import.meta.env.VITE_API_URL}/auth/login` : `${import.meta.env.VITE_API_URL}/auth/register`;
       const payload = isLogin ? { email: form.email, password: form.password } : form;
       const { data } = await axios.post(endpoint, payload);
       if (data.success) {

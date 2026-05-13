@@ -26,7 +26,7 @@ function AllNews() {
   useEffect(() => {
     setIsLoading(true);
     setError(null);
-    fetch(`/api/all-news?q=${encodeURIComponent(query)}&page=${page}&pageSize=${pageSize}`)
+    fetch(`${import.meta.env.VITE_API_URL}/all-news?q=${encodeURIComponent(query)}&page=${page}&pageSize=${pageSize}`)
       .then(response => {
         if (response.ok) return response.json();
         throw new Error('Network response was not ok');

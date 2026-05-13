@@ -29,7 +29,7 @@ function EverythingCard(props) {
     if (!user) { navigate('/auth'); return; }
     setSaving(true);
     try {
-      await axios.post('/api/bookmarks', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/bookmarks`, {
         title: props.title, description: props.description,
         url: props.url, urlToImage: props.imgUrl,
         publishedAt: props.publishedAt, author: props.author,
