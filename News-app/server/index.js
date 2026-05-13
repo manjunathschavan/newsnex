@@ -14,9 +14,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected) return;
+  await mongoose.connect(process.env.MONGO_URI);
+  isConnected = true;
+  console.log('MongoDB connected');
+};
+connectDB().catch(err => console.error('MongoDB connection error:', err));
 
 // Auth & Bookmark routes
 app.use("/auth", authRoutes);
