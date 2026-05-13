@@ -4,6 +4,11 @@ const axios = require("axios");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+// Fallback env vars for Vercel
+process.env.MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://mayurrr03_db_user:d.WxvAXb6_6vu5B@cluster0.1olem7c.mongodb.net/newsnex?retryWrites=true&w=majority&appName=Cluster0';
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'newsnex_super_secret_jwt_key_2024';
+process.env.API_KEY = process.env.API_KEY || '757b9c2dbd2e430e98d7172b1acdca94';
+
 const authRoutes = require("./routes/auth");
 const bookmarkRoutes = require("./routes/bookmarks");
 
