@@ -16,12 +16,26 @@ app.use(express.json());
 // MongoDB connection
 let isConnected = false;
 const connectDB = async () => {
-  if (isConnected) return;
-  await mongoose.connect(process.env.MONGO_URI);
+  if (isConnected && mongoose.connection.readyState === 1) return;
+  await mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 10000,
+    socketTimeoutMS: 10000,
+  });
   isConnected = true;
   console.log('MongoDB connected');
 };
-connectDB().catch(err => console.error('MongoDB connection error:', err));
+
+// Middleware to ensure DB is connected before auth/bookmark routes
+app.use(async (req, res, next) => {
+  if (req.path.startsWith('/auth') || req.path.startsWith('/bookmarks')) {
+    try {
+      await connectDB();
+    } catch (err) {
+      return res.status(500).json({ success: false, message: 'Database connection failed' });
+    }
+  }
+  next();
+});
 
 // Auth & Bookmark routes
 app.use("/auth", authRoutes);
