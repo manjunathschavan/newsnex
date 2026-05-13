@@ -37,7 +37,11 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Auth & Bookmark routes
+app.get('/debug', (req, res) => {
+  res.json({ mongoUri: process.env.MONGO_URI ? 'SET' : 'NOT SET', nodeEnv: process.env.NODE_ENV });
+});
+
+
 app.use("/auth", authRoutes);
 app.use("/bookmarks", bookmarkRoutes);
 
