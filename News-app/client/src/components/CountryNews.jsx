@@ -20,9 +20,7 @@ function CountryNews() {
 
   const pageSize = 6;
 
-  useEffect(() => {
-    setPage(1);
-  }, [params.iso]);
+  useEffect(() => { setPage(1); }, [params.iso]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -47,9 +45,7 @@ function CountryNews() {
         console.error('Fetch error:', error);
         setError('Failed to fetch news. Please try again later.');
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   }, [page, countryName]);
 
   return (
@@ -79,23 +75,9 @@ function CountryNews() {
       </div>
       {!isLoading && data.length > 0 && (
         <div className="pagination flex justify-center gap-14 my-10 items-center">
-          <button
-            disabled={page <= 1}
-            className="pagination-btn"
-            onClick={handlePrev}
-          >
-            Prev
-          </button>
-          <p className="font-semibold opacity-80">
-            {page} of {Math.ceil(totalResults / pageSize)}
-          </p>
-          <button
-            disabled={page >= Math.ceil(totalResults / pageSize)}
-            className="pagination-btn"
-            onClick={handleNext}
-          >
-            Next
-          </button>
+          <button disabled={page <= 1} className="pagination-btn" onClick={handlePrev}>Prev</button>
+          <p className="font-semibold opacity-80">{page} of {Math.ceil(totalResults / pageSize)}</p>
+          <button disabled={page >= Math.ceil(totalResults / pageSize)} className="pagination-btn" onClick={handleNext}>Next</button>
         </div>
       )}
     </>

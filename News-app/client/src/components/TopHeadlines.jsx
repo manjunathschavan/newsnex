@@ -11,13 +11,8 @@ function TopHeadlines() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  function handlePrev() {
-    setPage(page - 1);
-  }
-
-  function handleNext() {
-    setPage(page + 1);
-  }
+  function handlePrev() { setPage(page - 1); }
+  function handleNext() { setPage(page + 1); }
 
   let pageSize = 6;
 
@@ -27,9 +22,7 @@ function TopHeadlines() {
     const categoryParam = params.category ? `&category=${params.category}` : "";
     fetch(`/api/top-headlines?language=en${categoryParam}&page=${page}&pageSize=${pageSize}`)
       .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
+        if (response.ok) return response.json();
         throw new Error('Network response was not ok');
       })
       .then((json) => {
@@ -47,9 +40,7 @@ function TopHeadlines() {
         console.error('Fetch error:', error);
         setError('Failed to fetch news. Please try again later.');
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   }, [page, params.category]);
 
   return (

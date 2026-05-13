@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -10,7 +9,10 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
-      }
+      },
+      '/all-news': 'http://localhost:3000',
+      '/top-headlines': 'http://localhost:3000',
+      '/country': 'http://localhost:3000',
     }
   }
 })

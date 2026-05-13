@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import EverythingCard from './EverythingCard';
 import Loader from './Loader';
+import Search from './Search';
 
 function AllNews() {
   const [data, setData] = useState([]);
@@ -8,25 +9,26 @@ function AllNews() {
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [query, setQuery] = useState('world');
 
-  function handlePrev() {
-    setPage(page - 1);
-  }
+  function handlePrev() { setPage(page - 1); }
+  function handleNext() { setPage(page + 1); }
 
-  function handleNext() {
-    setPage(page + 1);
-  }
+  const handleSearch = () => {
+    const q = searchInput.trim() || 'world';
+    setQuery(q);
+    setPage(1);
+  };
 
   let pageSize = 12;
 
   useEffect(() => {
     setIsLoading(true);
     setError(null);
-    fetch(`/api/all-news?page=${page}&pageSize=${pageSize}`)
+    fetch(`/api/all-news?q=${encodeURIComponent(query)}&page=${page}&pageSize=${pageSize}`)
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
+        if (response.ok) return response.json();
         throw new Error('Network response was not ok');
       })
       .then(myJson => {
@@ -44,15 +46,13 @@ function AllNews() {
         console.error('Fetch error:', error);
         setError('Failed to fetch news. Please try again later.');
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [page]);
+      .finally(() => setIsLoading(false));
+  }, [page, query]);
 
   return (
     <>
+      <Search value={searchInput} onChange={setSearchInput} onSearch={handleSearch} />
       {error && <div className="text-red-500 mb-4">{error}</div>}
-
       <div className='mt-6 cards grid lg:place-content-center md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xs:grid-cols-1 gap-6 md:px-16 xs:p-4'>
         {!isLoading ? data.map((element, index) => (
           <EverythingCard
